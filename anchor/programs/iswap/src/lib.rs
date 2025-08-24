@@ -6,7 +6,7 @@ pub mod states;
 use instructions::*;
 use states::*;
 
-declare_id!("JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H");
+declare_id!("2vjDGp1wRYdiHeZae7p1h6KphvTMaGZ7RvVZWmN8mvsK");
 
 #[program]
 pub mod iswap {

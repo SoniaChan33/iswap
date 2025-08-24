@@ -5,108 +5,245 @@
  * IDL can be found at `target/idl/iswap.json`.
  */
 export type Iswap = {
-  address: 'JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H'
-  metadata: {
-    name: 'iswap'
-    version: '0.1.0'
-    spec: '0.1.0'
-    description: 'Created with Anchor'
-  }
-  instructions: [
+  "address": "2vjDGp1wRYdiHeZae7p1h6KphvTMaGZ7RvVZWmN8mvsK",
+  "metadata": {
+    "name": "iswap",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
     {
-      name: 'close'
-      discriminator: [98, 165, 201, 177, 108, 65, 206, 96]
-      accounts: [
+      "name": "etfCreate",
+      "discriminator": [
+        0,
+        81,
+        62,
+        85,
+        242,
+        37,
+        4,
+        245
+      ],
+      "accounts": [
         {
-          name: 'payer'
-          writable: true
-          signer: true
+          "name": "etfTokenInfo",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  69,
+                  84,
+                  70,
+                  95,
+                  84,
+                  79,
+                  75,
+                  69,
+                  78
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "etfTokenMintAccount"
+              }
+            ]
+          }
         },
         {
-          name: 'iswap'
-          writable: true
+          "name": "etfMetadataAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  116,
+                  97,
+                  100,
+                  97,
+                  116,
+                  97
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "tokenMetadataProgram"
+              },
+              {
+                "kind": "account",
+                "path": "etfTokenMintAccount"
+              }
+            ],
+            "program": {
+              "kind": "account",
+              "path": "tokenMetadataProgram"
+            }
+          }
         },
+        {
+          "name": "etfTokenMintAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  69,
+                  84,
+                  70,
+                  95,
+                  84,
+                  79,
+                  75,
+                  69,
+                  78
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "args.symbol"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        },
+        {
+          "name": "tokenProgram",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "address": "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "etfTokenArgs"
+            }
+          }
+        }
       ]
-      args: []
-    },
+    }
+  ],
+  "accounts": [
     {
-      name: 'decrement'
-      discriminator: [106, 227, 168, 59, 248, 27, 150, 101]
-      accounts: [
-        {
-          name: 'iswap'
-          writable: true
-        },
+      "name": "etfToken",
+      "discriminator": [
+        187,
+        90,
+        26,
+        73,
+        137,
+        112,
+        105,
+        60
       ]
-      args: []
-    },
+    }
+  ],
+  "types": [
     {
-      name: 'increment'
-      discriminator: [11, 18, 104, 9, 104, 174, 59, 33]
-      accounts: [
-        {
-          name: 'iswap'
-          writable: true
-        },
-      ]
-      args: []
-    },
-    {
-      name: 'initialize'
-      discriminator: [175, 175, 109, 31, 13, 152, 155, 237]
-      accounts: [
-        {
-          name: 'payer'
-          writable: true
-          signer: true
-        },
-        {
-          name: 'iswap'
-          writable: true
-          signer: true
-        },
-        {
-          name: 'systemProgram'
-          address: '11111111111111111111111111111111'
-        },
-      ]
-      args: []
-    },
-    {
-      name: 'set'
-      discriminator: [198, 51, 53, 241, 116, 29, 126, 194]
-      accounts: [
-        {
-          name: 'iswap'
-          writable: true
-        },
-      ]
-      args: [
-        {
-          name: 'value'
-          type: 'u8'
-        },
-      ]
-    },
-  ]
-  accounts: [
-    {
-      name: 'iswap'
-      discriminator: [255, 176, 4, 245, 188, 253, 124, 25]
-    },
-  ]
-  types: [
-    {
-      name: 'iswap'
-      type: {
-        kind: 'struct'
-        fields: [
+      "name": "etfAsset",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            name: 'count'
-            type: 'u8'
+            "name": "token",
+            "type": "pubkey"
           },
+          {
+            "name": "weight",
+            "type": "u16"
+          }
         ]
       }
     },
+    {
+      "name": "etfToken",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mintAccount",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "createAt",
+            "type": "i64"
+          },
+          {
+            "name": "descriptor",
+            "type": "string"
+          },
+          {
+            "name": "assets",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "etfAsset"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "etfTokenArgs",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "assets",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "etfAsset"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
   ]
-}
+};

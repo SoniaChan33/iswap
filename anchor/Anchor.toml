@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-iswap = "JAVuBXeBZqXNtS73azhBDAoYaaAFfo4gWXoZe2e7Jf8H"
+iswap = "2vjDGp1wRYdiHeZae7p1h6KphvTMaGZ7RvVZWmN8mvsK"
 
 [registry]
 url = "https://api.apr.dev"
@@ -16,4 +16,5 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "vitest"
+example = "../node_modules/.bin/tsx example/index.ts"
+test = "../node_modules/.bin/jest --perset ts-jest"

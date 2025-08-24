@@ -28,8 +28,10 @@ impl EtfTokenArgs {
 
 pub fn etf_token_create(ctx: Context<EtfTokenCreate>, args: EtfTokenArgs) -> Result<()> {
     // PDA signer seeds
+    let m = ctx.accounts.etf_token_mint_account.key();
     let signer_seeds: &[&[&[u8]]] = &[&[
         EtfToken::SEEDS_PREFIX.as_bytes(),
+        m.as_ref(),
         &[ctx.bumps.etf_token_info],
     ]];
     create_metadata_accounts_v3(
@@ -77,7 +79,7 @@ pub struct EtfTokenCreate<'info> {
         payer = authority,
         space = 8 + EtfToken::INIT_SPACE,
         seeds = [
-            EtfToken::SEEDS_PREFIX.as_ref(),
+            EtfToken::SEEDS_PREFIX.as_bytes(),
             etf_token_mint_account.key().as_ref()
         ],
         bump,
