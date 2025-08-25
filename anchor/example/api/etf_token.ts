@@ -3,6 +3,8 @@ import * as anchor from "@coral-xyz/anchor";
 import { deriveEtfInfoAccount } from "./address";
 import { PublicKey } from "@solana/web3.js";
 import { createAssociatedTokenAccountInstruction, getAccount, getAssociatedTokenAddressSync, TokenAccountNotFoundError } from "@solana/spl-token";
+import { BN } from "bn.js";
+
 export async function createETF(wallet: anchor.Wallet, name: string,
     symbol: string,
     description: string,
@@ -53,4 +55,34 @@ export async function createETF(wallet: anchor.Wallet, name: string,
         tx,
         [wallet.payer],
     );
+}
+
+
+export async function tokenMint(
+    wallet: anchor.Wallet,
+    eftAddress: PublicKey,
+    lamports: number,
+) {
+    const [etfTokenInfoAddress,] = deriveEtfInfoAccount(eftAddress);
+
+    const etfInfo = await program.account.etfToken.fetch(etfTokenInfoAddress);
+    const accounts = etfInfo.assets.flatMap(
+        (asset) => {
+            return [
+                // 用户钱包的ATA
+                getAssociatedTokenAddressSync(asset.token, wallet.publicKey),
+                // todo 合约的ATA  为什么需要true
+                getAssociatedTokenAddressSync(asset.token, etfTokenInfoAddress, true),
+            ]
+        }
+    )
+
+    return await program.methods.etfTokenMint(new BN(lamports)).accounts({
+        etfTokenMintAccount: eftAddress,
+    }).remainingAccounts(accounts.map((account) =>
+    ({
+        pubkey: account,
+        isSigner: false,
+        isWritable: true,
+    }))).rpc();
 }

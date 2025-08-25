@@ -49,27 +49,26 @@ pub fn etf_token_mint<'info>(
             ),
             amount,
         )?;
-
-        let binding = ctx.accounts.etf_token_mint_account.key();
-        let signer_seeds: &[&[&[u8]]] = &[&[
-            EtfToken::SEEDS_PREFIX.as_bytes(),
-            binding.as_ref(),
-            &[ctx.bumps.etf_token_info],
-        ]];
-
-        mint_to(
-            CpiContext::new_with_signer(
-                ctx.accounts.token_program.to_account_info(),
-                MintTo {
-                    mint: ctx.accounts.etf_token_mint_account.to_account_info(),
-                    to: ctx.accounts.etf_token_ata.to_account_info(),
-                    authority: ctx.accounts.etf_token_info.to_account_info(),
-                },
-                signer_seeds,
-            ),
-            lamports,
-        )?;
     }
+
+    let binding = ctx.accounts.etf_token_mint_account.key();
+    let signer_seeds: &[&[&[u8]]] = &[&[
+        EtfToken::SEEDS_PREFIX.as_bytes(),
+        binding.as_ref(),
+        &[ctx.bumps.etf_token_info],
+    ]];
+    mint_to(
+        CpiContext::new_with_signer(
+            ctx.accounts.token_program.to_account_info(),
+            MintTo {
+                mint: ctx.accounts.etf_token_mint_account.to_account_info(),
+                to: ctx.accounts.etf_token_ata.to_account_info(),
+                authority: ctx.accounts.etf_token_info.to_account_info(),
+            },
+            signer_seeds,
+        ),
+        lamports,
+    )?;
     Ok(())
 }
 
