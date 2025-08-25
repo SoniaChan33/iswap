@@ -95,7 +95,7 @@ pub struct EtfTokenCreate<'info> {
             etf_token_mint_account.key().as_ref()
         ],
         bump,
-        seeds::program = token_metadata_program.key(), //todo 这里的作用是？
+        seeds::program = token_metadata_program.key(), // MPL的规定： metadata_account 的 PDA 必须用 MPL 程序自身的 ID 作为 “派生时的程序 ID”
     )]
     pub etf_metadata_account: UncheckedAccount<'info>,
 

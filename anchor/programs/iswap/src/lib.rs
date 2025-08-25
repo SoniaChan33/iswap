@@ -15,4 +15,11 @@ pub mod iswap {
     pub fn etf_create(ctx: Context<EtfTokenCreate>, args: EtfTokenArgs) -> Result<()> {
         instructions::etf_create::etf_token_create(ctx, args)
     }
+
+    pub fn etf_token_mint<'info>(
+        ctx: Context<'_, '_, '_, 'info, EtfTokenMintTransaction<'info>>,
+        lamports: u64,
+    ) -> Result<()> {
+        instructions::etf_mint::etf_token_mint(ctx, lamports)
+    }
 }

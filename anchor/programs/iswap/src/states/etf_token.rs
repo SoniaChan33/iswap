@@ -44,3 +44,9 @@ impl EtfAsset {
         Self { token, weight }
     }
 }
+
+#[error_code]
+pub enum TokenMintError {
+    #[msg("Lack of necessary accounts")]
+    InvalidAccount,
+}
