@@ -2,7 +2,7 @@ use crate::states::etf_token::*;
 use anchor_lang::prelude::*;
 use anchor_spl::metadata::mpl_token_metadata::types::DataV2;
 use anchor_spl::metadata::{create_metadata_accounts_v3, CreateMetadataAccountsV3, Metadata};
-use anchor_spl::token::{self, Mint, Token, TokenAccount};
+use anchor_spl::token::{Mint, Token};
 
 #[account]
 pub struct EtfTokenArgs {

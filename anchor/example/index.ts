@@ -1,6 +1,6 @@
 import { deriveEtfTokenMintAccount } from "./api/address";
 import { useDefaultWallet } from "./api/const";
-import { createETF, tokenMint } from "./api/etf_token"
+import { createETF, tokenMint, tokenBurn } from "./api/etf_token"
 import * as anchor from "@coral-xyz/anchor";
 
 (async () => {
@@ -29,6 +29,10 @@ import * as anchor from "@coral-xyz/anchor";
     const [etf,] = deriveEtfTokenMintAccount("Sonia")
     console.log(etf.toString())
 
-    const r2 = await tokenMint(defaultWallet, etf, 100000000000)
-    console.log(r2)
+    // const r2 = await tokenMint(defaultWallet, etf, 100000000000)
+    // console.log(r2)
+
+    const r3 = await tokenBurn(defaultWallet, etf, 100000000000)
+    console.log(r3)
+
 })();

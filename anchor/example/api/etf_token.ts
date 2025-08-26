@@ -86,3 +86,32 @@ export async function tokenMint(
         isWritable: true,
     }))).rpc();
 }
+
+export async function tokenBurn(
+    wallet: anchor.Wallet,
+    eftAddress: PublicKey,
+    lamports: number,
+) {
+    const [etfTokenInfoAddress,] = deriveEtfInfoAccount(eftAddress);
+
+    const etfInfo = await program.account.etfToken.fetch(etfTokenInfoAddress);
+    const accounts = etfInfo.assets.flatMap(
+        (asset) => {
+            return [
+                // 用户钱包的ATA
+                getAssociatedTokenAddressSync(asset.token, wallet.publicKey),
+                // todo 合约的ATA  为什么需要true
+                getAssociatedTokenAddressSync(asset.token, etfTokenInfoAddress, true),
+            ]
+        }
+    )
+
+    return await program.methods.etfTokenBurn(new BN(lamports)).accounts({
+        etfTokenMintAccount: eftAddress,
+    }).remainingAccounts(accounts.map((account) =>
+    ({
+        pubkey: account,
+        isSigner: false,
+        isWritable: true,
+    }))).rpc();
+}
